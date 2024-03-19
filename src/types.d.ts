@@ -1,6 +1,13 @@
 export {}
 
 declare global {
+  interface Console {
+    everything: any;
+    defaultLog: any;
+    defaultError: any;
+    defaultWarn: any;
+    defaultDebug: any;
+  }
   interface Window {
     __arsfChat: any;
     __arsfChatIdg: any;

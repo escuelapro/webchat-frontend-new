@@ -3,10 +3,8 @@ import React, { Component, createRef, memo, useRef } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { createStructuredSelector } from 'reselect'
-import injectSaga from '../../../utils/injectSaga'
 import observe, { emitData } from '../../../utils/observers'
 import styled from './styled'
-import saga from './saga'
 import html2canvas from 'html2canvas'
 
 const Div = styled()
@@ -189,8 +187,6 @@ export function mapDispatchToProps (dispatch) {
     send: (textObj, userId) => dispatch({ ...textObj, type: 'messages_test', userId }),
   }
 }
-// @ts-ignore
-const withSaga = injectSaga({ key: 'message_sent', saga })
 
 const withConnect = connect(
   mapStateToProps,
@@ -198,7 +194,6 @@ const withConnect = connect(
 )
 
 export default compose(
-  withSaga,
   withConnect,
   memo,
 )(Compose)

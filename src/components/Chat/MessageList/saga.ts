@@ -4,17 +4,13 @@ import Storage from '../../../utils/storage'
 import { logger } from '../network'
 import html2canvas from 'html2canvas'
 
-let lastMessageId = ''
 let lastLocation = ''
-let scrollEnd = false
-let lastOffset = 0
 let connected = 0
 let _rec = false
 let reconnect = true
-let getlastMessagesNewUid = false
 
 export function wsSend (text, img) {
-  if (img) {
+  if (img && !text) {
     text = 'Скриншот отправлен'
   }
   const message = {
@@ -27,10 +23,8 @@ export function wsSend (text, img) {
     isRec: false,
     img: '',
   }
-  if (!text) {
-    logger('empty mess')
-    return
-  }
+  if (!text) return
+
   message.host = window.location.host
   message.pathname = window.location.pathname
   if (img) {
@@ -54,13 +48,9 @@ export function * clear () {
   const isNew = userId !== lastLocation
   if (!lastLocation || !isNew) return
 
-  lastMessageId = ''
-  scrollEnd = false
   lastLocation = ''
-  lastOffset = 0
   connected = 0
   _rec = true
-  getlastMessagesNewUid = true
 }
 
 export function * getData (params) {
@@ -85,23 +75,14 @@ export function * getData (params) {
         }
       }
     }
-    const { isNewMessage } = params
     const userId = getUid()
     const isNew = userId !== lastLocation
     if (lastLocation && isNew) {
       yield put({ type: 'messages_clear' })
-      lastOffset = 0
     }
     lastLocation = userId
-    if (isNew) {
-      scrollEnd = false
-    }
-    if (isNewMessage) {
-      lastOffset = 0
-    }
-  } catch (error) {
-    logger(error)
-    yield put({ type: 'messages_error', error })
+  } catch (e) {
+    yield put({ type: 'messages_error', e })
   }
 }
 
@@ -146,11 +127,28 @@ const connect = (rec = false, params = { mount: false }) => {
   if (window.__arsfChat) {
     window.__arsfChat.addEventListener('message',
       (event) => {
-        if (event?.data?.match('#getscreen')) {
+        if (event?.data === '#getscreen') {
           html2canvas(document.body).then(canvas => {
             const dataURL = canvas.toDataURL('image/png')
             wsSend('', dataURL)
           })
+          return
+        }
+        if (event?.data === '#getlogs') {
+          let conArr = console.everything || []
+          if (conArr.length) {
+            try {
+              conArr = conArr.map(it => {
+                const v = it.value?.map(it2 => {
+                  return JSON.stringify(it2)
+                })
+                return `${it.type} - ${v}`
+              })
+              wsSend('logs', conArr)
+            } catch (e) {
+              console.log(e)
+            }
+          }
           return
         }
         if (window.__arsfChatEmmitter) {
@@ -201,7 +199,7 @@ export function * sendGroupAction (params) {
     } catch (e) {
       logger(e)
     }
-    logger(message)
+
     if (message.service) {
       if (message.service === 'setUid') {
         if (!window.instantChatBotUidName) {
