@@ -1,0 +1,100 @@
+.arsf-message {
+  display: flex;
+  flex-direction: column;
+}
+.arsf-message .bubble {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.arsf-message .timestamp {
+  display: flex;
+  justify-content: center;
+  color: #999;
+  font-weight: 600;
+  font-size: 12px;
+  margin: 10px 0;
+  text-transform: uppercase;
+}
+
+.arsf-message .bubble-container {
+  font-size: 14px;
+  display: flex;
+}
+
+.arsf-message.mine .bubble-container {
+  justify-content: flex-end;
+}
+
+.arsf-message.start .bubble-container .bubble {
+  border-top-left-radius: 20px;
+}
+
+.arsf-message.end .bubble-container .bubble {
+  border-bottom-left-radius: 20px;
+}
+
+.arsf-message.mine.start .bubble-container .bubble {
+  margin-top: 10px;
+  border-top-right-radius: 20px;
+}
+
+.arsf-message.mine.end .bubble-container .bubble {
+  border-bottom-right-radius: 20px;
+  margin-bottom: 10px;
+}
+
+.arsf-message .bubble-container .bubble {
+  margin: 1px 0;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 10px 15px;
+  border-radius: 20px;
+  max-width: 75%;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+  min-width: 50px;
+  font-family: RobotoIVCHAT, serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 18px;
+}
+
+.arsf-message.mine .bubble-container .bubble {
+  background: #4284FF;
+  color: white;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  text-align: right;
+}
+
+.time {
+  display: block;
+  font-size: 11px;
+  color: #9ABDFC;
+  text-align: left;
+}
+.left {
+  float: left;
+}
+.right {
+  float: right;
+}
+.read {
+  text-align: right;
+  margin-right: 10px;
+}
+.read-ok {
+  letter-spacing: -5px;
+}
+.timestamp {
+  background-color: rgba(255, 255, 255, 0.5);
+  width: auto;
+  display: block;
+  margin: 0 auto !important;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-family: RobotoIVCHAT, serif;
+  font-size: 14px !important;
+}
