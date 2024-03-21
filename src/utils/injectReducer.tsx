@@ -3,7 +3,7 @@ import hoistNonReactStatics from 'hoist-non-react-statics'
 import { ReactReduxContext } from 'react-redux'
 
 import getInjectors from './reducerInjectors'
-import React, { Component, useContext, useEffect } from 'react'
+import React, { Component } from 'react'
 
 /**
  * Dynamically injects a reducer
@@ -36,12 +36,3 @@ export default ({ key, reducer }) => WrappedComponent => {
 
   return hoistNonReactStatics(ReducerInjector, WrappedComponent)
 }
-
-const useInjectReducer = ({ key, reducer }) => {
-  const context = useContext(ReactReduxContext)
-  useEffect(() => {
-    getInjectors(context.store).injectReducer(key, reducer)
-  }, [context.store, key, reducer])
-}
-
-export { useInjectReducer }

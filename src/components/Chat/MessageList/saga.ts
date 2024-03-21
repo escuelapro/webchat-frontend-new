@@ -30,9 +30,7 @@ export function wsSend (text, img) {
   if (img) {
     message.img = img
   }
-  if (window.__arsfChatIdg) {
-    message.g = window.__arsfChatIdg
-  }
+  message.g = window.__arsfChatIdg || ''
   if (window.__arsfChatIdu) {
     message.u = window.__arsfChatIdu
   }
@@ -66,9 +64,7 @@ export function * getData (params) {
         } else {
           if (params.mount) {
             const message = { service: 'lastmes', g: '', uid: '' }
-            if (window.__arsfChatIdg) {
-              message.g = window.__arsfChatIdg
-            }
+            message.g = window.__arsfChatIdg || ''
             message.uid = getUid()
             window.__arsfChat.send(JSON.stringify(message))
           }
@@ -98,25 +94,19 @@ const connect = (rec = false, params = { mount: false }) => {
   }
   const cc = new WebSocket(wsUri)
   window.__arsfChat = cc
-  if (!window.__arsfChatIdg) window.__arsfChatIdg = 1
   cc.onopen = () => {
     _rec = false
     if (params.mount) {
       const message = { service: 'lastmes', g: '', uid: '' }
-      if (window.__arsfChatIdg) {
-        message.g = window.__arsfChatIdg
-      }
+      message.g = window.__arsfChatIdg || ''
       message.uid = getUid()
       window.__arsfChat.send(JSON.stringify(message))
     }
     if (!rec) {
-      // console.log(`room ${window.__arsfChatIdg}`)
       const message = { message: 'hi', login: 1, host: '', pathname: '', g: '', uid: '', u: '' }
       message.host = window.location.host
       message.pathname = window.location.pathname
-      if (window.__arsfChatIdg) {
-        message.g = window.__arsfChatIdg
-      }
+      message.g = window.__arsfChatIdg || ''
       message.uid = getUid()
       if (window.__arsfChatIdu) {
         message.u = window.__arsfChatIdu

@@ -16,15 +16,6 @@ window.instantChatBot = {
     // @ts-ignore
     emitData('instantChatBotEvents', { open: window.instantChatBot.show })
   },
-  // @ts-ignore
-  close: (exit) => {
-    // @ts-ignore
-    if (exit && window.instantChatBotUidName) delete window.instantChatBotUidName
-    // @ts-ignore
-    window.instantChatBot.show = false
-    // @ts-ignore
-    emitData('instantChatBotEvents', { open: false })
-  },
 }
 
 // @ts-ignore

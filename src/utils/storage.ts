@@ -52,18 +52,8 @@ class Storage {
     return this.__(k, v)
   }
 
-  clear () {
-    return localStorage.clear()
-  }
-
   getInt (key) {
     return toInt(this._(key, 0))
-  }
-
-  inc (key, val) {
-    let v = this.getInt(key)
-    v += toInt(val)
-    return this.set(key, v)
   }
 }
 
