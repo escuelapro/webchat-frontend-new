@@ -17,8 +17,13 @@ const sound = new Audio(notifySound)
 function playSound () {
   sound.play()
 }
-if (window.location.host === 'localhost:3000') {
+const testDomain = 'escuela-chat-test.web.app'
+const isTestDomain = window.location.host === testDomain
+if (window.location.host === 'localhost:3000' || isTestDomain) {
   window.__arsfChatIdg = '4156467812'
+  if (isTestDomain) {
+    window.__arsfChatUrl = 'api.cafechat.app'
+  }
 }
 // // Example usage: Call the playSound() function when a button is clicked
 // const playButton = document.getElementById('playButton');
@@ -113,17 +118,13 @@ const connect = (rec = false, params = { mount: false }) => {
     if (window.__arsfChat) {
       window.__arsfChat.addEventListener('message',
         (event) => {
-          if (window.__arsfChatInBackground) {
-            playSound()
-          }
           if (event?.data === '#getscreen') {
             html2canvas(document.body).then(canvas => {
               const dataURL = canvas.toDataURL('image/png')
               wsSend('', dataURL)
             })
             return
-          }
-          if (event?.data === '#getlogs') {
+          } else if (event?.data === '#getlogs') {
             let conArr = console.everything || []
             if (conArr.length) {
               try {
@@ -139,6 +140,8 @@ const connect = (rec = false, params = { mount: false }) => {
               }
             }
             return
+          } else if (window.__arsfChatInBackground) {
+            playSound()
           }
           if (window.__arsfChatEmmitter) {
             window.__arsfChatEmmitter(
