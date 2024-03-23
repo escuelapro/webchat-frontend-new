@@ -1,7 +1,7 @@
 import React, { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import Chat from '@/pages/Chat/Loadable'
+import Chat from '@/pages/Chat'
 import { Provider } from 'react-redux'
 import configureStore from '@/utils/configureStore'
 
