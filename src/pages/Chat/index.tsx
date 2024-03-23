@@ -1,11 +1,36 @@
 // @ts-ignore
-import React, { memo, useEffect, useState } from 'react'
-import { compose } from 'redux'
+import React, { useEffect, useState } from 'react'
 import styled from './styled'
 import observe, { emitData } from '../../utils/observers'
 import Messenger from '../../components/Chat/Messenger/index'
 
 const Popup = styled()
+let isTabActive = true
+
+// Event listener for visibility change
+document.addEventListener('visibilitychange', function () {
+  isTabActive = document.visibilityState === 'visible'
+})
+
+// Event listener for focus change
+window.addEventListener('focus', function () {
+  isTabActive = true
+  // console.log('Tab is active')
+  window.__arsfChatInBackground = false
+})
+
+window.addEventListener('blur', function () {
+  isTabActive = false
+  // console.log('Tab is in background')
+  window.__arsfChatInBackground = true
+})
+// function handleBrowserFocus () {
+// console.log('User returned to the browser focus')
+// window.__arsfChatInBackground = true
+// Add any additional logic or functionality you need here
+// }
+
+// window.addEventListener('focus', handleBrowserFocus)
 
 // @ts-ignore
 window.instantChatBot = {
@@ -19,7 +44,7 @@ window.instantChatBot = {
 }
 
 // @ts-ignore
-function HomePage () {
+function Chat () {
   const [show, setShow] = useState(false)
   // @ts-ignore
   const setShowFunc = (data) => {
@@ -58,4 +83,4 @@ function HomePage () {
     </div>
   )
 }
-export default compose(memo)(HomePage)
+export default Chat

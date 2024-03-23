@@ -14,6 +14,7 @@ declare global {
     __arsfChatUrl: any;
     __arsfChatIdu: any;
     __arsfChatEmmitter: any;
+    __arsfChatInBackground: any;
     instantChatBotUidName: any;
     __arsfShowGreetings: any;
     location: any;

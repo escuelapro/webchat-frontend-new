@@ -1,8 +1,7 @@
 import React, { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-// import { App } from '@/app'
 import './index.css'
-import Chat from '@/pages/Chat'
+import Chat from '@/pages/Chat/Loadable'
 import { Provider } from 'react-redux'
 import configureStore from '@/utils/configureStore'
 
@@ -11,7 +10,6 @@ if (!rootElement) {
   rootElement = document.getElementById('apppopupmax122')
 }
 
-// const rootElement = document.querySelector('[data-js="root"]')
 const initialState = {}
 const store = configureStore(initialState)
 

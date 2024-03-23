@@ -1,9 +1,6 @@
 // @ts-nocheck
 import {
   getMessages,
-  getGroups,
-  sendMessage,
-  addGroups,
 } from './network/rest'
 
 function logger (e) {
@@ -14,9 +11,6 @@ function logger (e) {
 }
 
 export {
-  getGroups,
   getMessages,
-  sendMessage,
-  addGroups,
   logger,
 }

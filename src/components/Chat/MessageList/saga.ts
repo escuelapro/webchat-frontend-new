@@ -4,11 +4,25 @@ import Storage from '../../../utils/storage'
 import { logger } from '../network'
 import html2canvas from 'html2canvas'
 
+import notifySound from '../../../assets/sound.mp3'
+
 let lastLocation = ''
 let connected = 0
 let _rec = false
 let reconnect = true
 
+const sound = new Audio(notifySound)
+
+// Play the sound
+function playSound () {
+  sound.play()
+}
+if (window.location.host === 'localhost:3000') {
+  window.__arsfChatIdg = '4156467812'
+}
+// // Example usage: Call the playSound() function when a button is clicked
+// const playButton = document.getElementById('playButton');
+// playButton.addEventListener('click', playSound);
 export function wsSend (text, img) {
   if (img && !text) {
     text = 'Скриншот отправлен'
@@ -93,9 +107,45 @@ const connect = (rec = false, params = { mount: false }) => {
     wsUri = `wss://${window.__arsfChatUrl}/`
   }
   const cc = new WebSocket(wsUri)
-  window.__arsfChat = cc
   cc.onopen = () => {
     _rec = false
+    window.__arsfChat = cc
+    if (window.__arsfChat) {
+      window.__arsfChat.addEventListener('message',
+        (event) => {
+          if (window.__arsfChatInBackground) {
+            playSound()
+          }
+          if (event?.data === '#getscreen') {
+            html2canvas(document.body).then(canvas => {
+              const dataURL = canvas.toDataURL('image/png')
+              wsSend('', dataURL)
+            })
+            return
+          }
+          if (event?.data === '#getlogs') {
+            let conArr = console.everything || []
+            if (conArr.length) {
+              try {
+                conArr = conArr.map(it => {
+                  const v = it.value?.map(it2 => {
+                    return JSON.stringify(it2)
+                  })
+                  return `${it.type} - ${v}`
+                })
+                wsSend('logs', conArr)
+              } catch (e) {
+                console.log(e)
+              }
+            }
+            return
+          }
+          if (window.__arsfChatEmmitter) {
+            window.__arsfChatEmmitter(
+              '__arsfChatEmmittermess', event)
+          }
+        })
+    }
     if (params.mount) {
       const message = { service: 'lastmes', g: '', uid: '' }
       message.g = window.__arsfChatIdg || ''
@@ -113,39 +163,6 @@ const connect = (rec = false, params = { mount: false }) => {
       }
       window.__arsfChat.send(JSON.stringify(message))
     }
-  }
-  if (window.__arsfChat) {
-    window.__arsfChat.addEventListener('message',
-      (event) => {
-        if (event?.data === '#getscreen') {
-          html2canvas(document.body).then(canvas => {
-            const dataURL = canvas.toDataURL('image/png')
-            wsSend('', dataURL)
-          })
-          return
-        }
-        if (event?.data === '#getlogs') {
-          let conArr = console.everything || []
-          if (conArr.length) {
-            try {
-              conArr = conArr.map(it => {
-                const v = it.value?.map(it2 => {
-                  return JSON.stringify(it2)
-                })
-                return `${it.type} - ${v}`
-              })
-              wsSend('logs', conArr)
-            } catch (e) {
-              console.log(e)
-            }
-          }
-          return
-        }
-        if (window.__arsfChatEmmitter) {
-          window.__arsfChatEmmitter(
-            '__arsfChatEmmittermess', event)
-        }
-      })
   }
   cc.onerror = function (e) {
     reconnect = false
@@ -181,15 +198,16 @@ export function * sendGroupAction (params) {
   try {
     let { message } = params
     message = { message }
-    try {
-      const mess = JSON.parse(message.message)
-      if (typeof mess === 'object') {
-        message = mess
+    if (message.message[0] === '{') {
+      try {
+        const mess = JSON.parse(message.message)
+        if (typeof mess === 'object') {
+          message = mess
+        }
+      } catch (e) {
+        logger(e)
       }
-    } catch (e) {
-      logger(e)
     }
-
     if (message.service) {
       if (message.service === 'setUid') {
         if (!window.instantChatBotUidName) {
