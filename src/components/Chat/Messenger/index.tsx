@@ -1,7 +1,9 @@
 // @ts-nocheck
 import React, { memo, useEffect } from 'react'
 import { compose } from 'redux'
-import Storage from '../../../utils/storage'
+
+import Storage from '@/utils/storage'
+
 import MessageList from '../MessageList'
 import styled from './styled'
 

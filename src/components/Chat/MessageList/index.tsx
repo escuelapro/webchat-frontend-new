@@ -5,10 +5,12 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import moment from 'dayjs'
 import duration from 'dayjs/plugin/duration'
-
+import { FormattedMessage } from 'react-intl'
 import { createStructuredSelector } from 'reselect'
-import injectSaga from '../../../utils/injectSaga'
-import injectReducer from '../../../utils/injectReducer'
+
+import injectSaga from '@/utils/injectSaga'
+import injectReducer from '@/utils/injectReducer'
+import observe, { emitData } from '@/utils/observers'
 
 import Compose from '../Compose'
 import Message from '../Message'
@@ -24,9 +26,9 @@ import styled from './styled'
 import saga from './saga'
 import reducer from './reducer'
 import Loader from '../Loader'
-import observe, { emitData } from '../../../utils/observers'
 
 const Div = styled()
+
 moment.extend(duration)
 
 // eslint-disable-next-line no-underscore-dangle
@@ -156,9 +158,7 @@ class MessageList extends Component<any, any> {
                   <div className='img' />
                 </div>
                 <div className='text'>
-                  Привет! <br />
-                  Это чат для быстрой связи, чтобы оперативно решить твой вопрос
-                  :)
+                  <FormattedMessage id='greet' values={{ br: <br /> }} />
                 </div>
               </div>
             </>

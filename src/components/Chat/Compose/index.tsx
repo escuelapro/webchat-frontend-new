@@ -1,17 +1,20 @@
-// @ts-nocheck
 import React, { Component, createRef, memo, useRef } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { createStructuredSelector } from 'reselect'
-import observe, { emitData } from '../../../utils/observers'
-import styled from './styled'
 import html2canvas from 'html2canvas'
+import { FormattedMessage } from 'react-intl'
+
+import observe, { emitData } from '@/utils/observers'
+import TextArea from '@/components/Chat/Compose/TextArea'
+
+import styled from './styled'
 
 const Div = styled()
 // @ts-ignore
 if (!window.__arsfChatEmmitter) {
   // @ts-ignore
-  window.__arsfChatEmmitter = (txt) => {
+  window.__arsfChatEmmitter = (txt: string) => {
     // @ts-ignore
     emitData('__arsfChatEmmitter', txt)
   }
@@ -72,10 +75,14 @@ interface Props {
 }
 // @ts-ignore
 class Compose extends Component<Props> {
+  private rel: React.RefObject<any>
+
+  state = { img: false }
+
   constructor (p: Props) {
     super(p)
     // eslint-disable-next-line no-unused-expressions
-    this.rel = createRef<any>(null)
+    this.rel = createRef<any>()
     // @ts-ignore
     window.__arsfChatEmmitter.bind(this)()
     this.state = {
@@ -140,12 +147,14 @@ class Compose extends Component<Props> {
       <Div className='abs-w-c-btm-form'>
         {!!this.state.img && (
           <div className='send-screen-wrap'>
-            <div className='send-screen-title'>Вы действительно хотите отправить скриншот?</div>
+            <div className='send-screen-title'>
+              <FormattedMessage id='screen' />
+            </div>
             <div className='send-screen'>
               {/* eslint-disable-next-line react/jsx-handler-names */}
-              <button type='button' onClick={this.screenSendToServer}>Да</button>
+              <button type='button' onClick={this.screenSendToServer}><FormattedMessage id='yes' /></button>
               {/* eslint-disable-next-line react/jsx-handler-names */}
-              <button type='button' onClick={this.cancelImg}>Нет</button>
+              <button type='button' onClick={this.cancelImg}><FormattedMessage id='no' /></button>
             </div>
           </div>
         )}
@@ -153,18 +162,7 @@ class Compose extends Component<Props> {
         <form onSubmit={this.test} className='compose'>
           {/* eslint-disable-next-line react/jsx-handler-names */}
           <ScreenshotButton onClick={this.screenSend} />
-          <textarea
-            ref={this.rel}
-            className='compose-input form-control'
-            placeholder='Задайте свой вопрос'
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.keyCode === 13) {
-                if (!e.ctrlKey && !e.shiftKey) {
-                  this.send(e)
-                }
-              }
-            }}
-          />
+          <TextArea rel={this.rel} send={this.send} />
           <div className='send'>
             <button
               className='btn btn-ghost-success img send-btn'

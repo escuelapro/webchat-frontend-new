@@ -3,7 +3,7 @@ import createSagaMiddleware from 'redux-saga'
 
 import createReducer from './reducers'
 
-export default function configureStore (initialState) {
+export default function configureStore () {
   let composeEnhancers = compose
   const reduxSagaMonitorOptions = {}
 
@@ -26,7 +26,7 @@ export default function configureStore (initialState) {
   const store = createStore(
     createReducer(),
     // @ts-ignore
-    initialState,
+    {},
     // @ts-ignore
     composeEnhancers(...enhancers),
   )

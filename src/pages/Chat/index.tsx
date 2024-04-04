@@ -1,8 +1,10 @@
 // @ts-ignore
 import React, { useEffect, useState } from 'react'
+
+import observe, { emitData } from '@/utils/observers'
+import Messenger from '@/components/Chat/Messenger'
+
 import styled from './styled'
-import observe, { emitData } from '../../utils/observers'
-import Messenger from '../../components/Chat/Messenger/index'
 
 const Popup = styled()
 let isTabActive = true

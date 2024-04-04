@@ -8,8 +8,6 @@ import { initialState } from './reducer'
 
 const selectGlobal = state => state.messages || initialState
 
-// const selectRouter = state => state.router;
-
 const makeSelectLoading = () =>
   createSelector(
     selectGlobal,

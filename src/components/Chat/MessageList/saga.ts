@@ -1,10 +1,11 @@
 // @ts-nocheck
 import { put, takeLatest } from 'redux-saga/effects'
-import Storage from '../../../utils/storage'
-import { logger } from '../network'
 import html2canvas from 'html2canvas'
 
-import notifySound from '../../../assets/sound.mp3'
+import Storage from '@/utils/storage'
+import notifySound from '@/assets/sound.mp3'
+
+import { logger } from '../network'
 
 let lastLocation = ''
 let connected = 0
@@ -17,8 +18,11 @@ const sound = new Audio(notifySound)
 function playSound () {
   sound.play()
 }
+
 const testDomain = 'escuela-chat-test.web.app'
+
 const isTestDomain = window.location.host === testDomain
+
 if (window.location.host === 'localhost:3000' || isTestDomain) {
   window.__arsfChatIdg = '4156467812'
   if (isTestDomain) {
@@ -29,9 +33,6 @@ if (window.location.host === 'localhost:3000' || isTestDomain) {
 // const playButton = document.getElementById('playButton');
 // playButton.addEventListener('click', playSound);
 export function wsSend (text, img) {
-  if (img && !text) {
-    text = 'Скриншот отправлен'
-  }
   const message = {
     message: text,
     host: '',
@@ -42,7 +43,7 @@ export function wsSend (text, img) {
     isRec: false,
     img: '',
   }
-  if (!text) return
+  if (!text && !img) return
 
   message.host = window.location.host
   message.pathname = window.location.pathname

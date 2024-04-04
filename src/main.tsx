@@ -1,27 +1,43 @@
 import React, { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
-import Chat from '@/pages/Chat'
 import { Provider } from 'react-redux'
+import { IntlProvider } from 'react-intl'
+
+import Chat from '@/pages/Chat'
 import configureStore from '@/utils/configureStore'
 
-let rootElement = document.getElementById('apppopupmax')
-if (!rootElement) {
-  rootElement = document.getElementById('apppopupmax122')
-}
+import { defaultLocale, locales } from './i18n-config'
 
-const initialState = {}
-const store = configureStore(initialState)
+import './index.css'
+
+const rootElement = document.getElementById('apppopupmax')
+
+const store = configureStore()
 
 if (!rootElement) {
   throw new Error('Failed to find the root element')
 }
 
+function I18n (props): JSX.Element {
+  return (
+    <IntlProvider
+      locale={defaultLocale}
+      defaultLocale={defaultLocale}
+      messages={locales[defaultLocale]}
+    >
+      {/* eslint-disable-next-line react/prop-types */}
+      {props.children}
+    </IntlProvider>
+  )
+}
+
 const root = createRoot(rootElement)
 root.render(
   <StrictMode>
-    <Provider store={store}>
-      <Chat />
-    </Provider>
+    <I18n>
+      <Provider store={store}>
+        <Chat />
+      </Provider>
+    </I18n>
   </StrictMode>,
 )
