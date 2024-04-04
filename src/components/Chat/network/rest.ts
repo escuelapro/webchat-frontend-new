@@ -1,6 +1,6 @@
 // @ts-nocheck
-import Storage from '../../../utils/storage'
-import request from '../../../utils/request'
+import Storage from '@/utils/storage'
+import request from '@/utils/request'
 
 const apiUrl = import.meta.env.REST_API
 

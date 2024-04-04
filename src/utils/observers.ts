@@ -2,7 +2,7 @@ let observers = {}
 let data = ''
 let observerName = ''
 // @ts-ignore
-function emitChange (method, title = '') {
+function emitChange (method: string, title = '') {
   try {
     // @ts-ignore
     if (observers[observerName] && observers[observerName][method]) {
@@ -25,7 +25,7 @@ export default function observe (name: string, listeners = {}) {
   }
 }
 // @ts-ignore
-export function emitData (type, val, title) {
+export function emitData (type: string, val, title) {
   observerName = type
   data = val
   emitChange(type, title)

@@ -1,4 +1,3 @@
-// @ts-ignore
 import React, { useEffect, useState } from 'react'
 
 import observe, { emitData } from '@/utils/observers'
@@ -7,32 +6,15 @@ import Messenger from '@/components/Chat/Messenger'
 import styled from './styled'
 
 const Popup = styled()
-let isTabActive = true
-
-// Event listener for visibility change
-document.addEventListener('visibilitychange', function () {
-  isTabActive = document.visibilityState === 'visible'
-})
 
 // Event listener for focus change
 window.addEventListener('focus', function () {
-  isTabActive = true
-  // console.log('Tab is active')
   window.__arsfChatInBackground = false
 })
 
 window.addEventListener('blur', function () {
-  isTabActive = false
-  // console.log('Tab is in background')
   window.__arsfChatInBackground = true
 })
-// function handleBrowserFocus () {
-// console.log('User returned to the browser focus')
-// window.__arsfChatInBackground = true
-// Add any additional logic or functionality you need here
-// }
-
-// window.addEventListener('focus', handleBrowserFocus)
 
 // @ts-ignore
 window.instantChatBot = {
@@ -58,10 +40,12 @@ function Chat () {
       [name]: setShowFunc,
     })
   }, [])
+
   const toggle = () => {
     // @ts-ignore
     window.instantChatBot.open()
   }
+
   return (
     <div>
       <Popup>
@@ -78,7 +62,9 @@ function Chat () {
               </div>
               )
             : (
-              <div className='msger-button' onClick={toggle} title='Support service' />
+              <div className='msger-button' onClick={toggle} title='Support service'>
+                <span className='notify-indicator' />
+              </div>
               )}
         </div>
       </Popup>

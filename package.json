@@ -11,8 +11,7 @@
     "lint": "eslint src --ext ts,tsx",
     "lint:fix": "yarn lint --fix",
     "type-check": "tsc --project tsconfig.json --pretty --noEmit",
-    "prepare": "husky install",
-    "update-deps": "node ./src/config/update-deps.mjs"
+    "prepare": "husky install"
   },
   "dependencies": {
     "@testing-library/jest-dom": "6.4.2",

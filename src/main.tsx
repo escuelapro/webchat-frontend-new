@@ -8,8 +8,6 @@ import configureStore from '@/utils/configureStore'
 
 import { defaultLocale, locales } from './i18n-config'
 
-import './index.css'
-
 const rootElement = document.getElementById('apppopupmax')
 
 const store = configureStore()

@@ -1,7 +1,5 @@
 // @ts-nocheck
-import {
-  getMessages,
-} from './network/rest'
+import { getMessages } from './network/rest'
 
 function logger (e) {
   // @ts-ignore

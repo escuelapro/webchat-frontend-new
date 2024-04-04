@@ -25,6 +25,7 @@ import {
 import styled from './styled'
 import saga from './saga'
 import reducer from './reducer'
+
 import Loader from '../Loader'
 
 const Div = styled()

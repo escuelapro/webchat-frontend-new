@@ -8,12 +8,15 @@ import MessageList from '../MessageList'
 import styled from './styled'
 
 const Div = styled()
+
 let tabIdKey = 'tabID'
 let dubIdKey = 'isDup'
+
 if (window.location.href.match('3011')) {
   tabIdKey = 'tabIdDev'
   dubIdKey = 'isDupDev'
 }
+
 const appId = Storage.get(tabIdKey)
 
 function defineTabID () {
@@ -25,7 +28,6 @@ function defineTabID () {
   return iPageTabID
 }
 
-let duplicateTab = false
 let userId: any = 1
 const m = window.location.href.match(/client\/([0-9]+)\//)
 if (m) {
@@ -40,8 +42,6 @@ function onLoad (isFirst) {
   if (sessionStorage.isDup === '') {
     sessionStorage.isDup = 'already loaded'
   } else {
-    duplicateTab = sessionStorage[dubIdKey] !== userId
-
     if (!isFirst) delete sessionStorage.tabID
   }
   if (!isFirst) delete sessionStorage[tabIdKey]

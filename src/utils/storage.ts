@@ -5,6 +5,7 @@ function toInt (v) {
   }
   return inVal
 }
+
 if (console.everything === undefined) {
   console.everything = []
 
@@ -50,10 +51,6 @@ class Storage {
 
   set (k, v) {
     return this.__(k, v)
-  }
-
-  getInt (key) {
-    return toInt(this._(key, 0))
   }
 }
 

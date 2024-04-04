@@ -1,4 +1,5 @@
 @import "../../assets/fonts.css";
+
 .__mx-phone-line {
   position: fixed;
   bottom: 10px;
@@ -64,4 +65,14 @@
   display: block;
   text-align: center;
   margin: 0 auto;
+}
+
+.notify-indicator {
+  display: none;
+  position: absolute;
+  padding: 4px 6px;
+  background: red;
+  right: 0;
+  border-radius: 7px;
+  color: #fff;
 }

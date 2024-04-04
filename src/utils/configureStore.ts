@@ -37,11 +37,6 @@ export default function configureStore () {
   store.injectedReducers = {}
   // @ts-ignore
   store.injectedSagas = {}
-  // if (module.hot) {
-  //   module.hot.accept('./reducers', () => {
-  //     store.replaceReducer(createReducer(store.injectedReducers));
-  //   });
-  // }
 
   return store
 }
