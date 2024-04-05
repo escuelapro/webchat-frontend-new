@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-member-accessibility */
-// @ts-nocheck
 import React, { Component, memo } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
@@ -32,18 +30,15 @@ const Div = styled()
 
 moment.extend(duration)
 
-// eslint-disable-next-line no-underscore-dangle
 window.__arsfChatEmmitter = emitData
-// eslint-disable-next-line no-underscore-dangle
 window.__arsfShowGreetings = true
 const MSG_CONTAINER = '.arsf-messenger-scrollable .arsf-message-list-container'
 
 class MessageList extends Component<any, any> {
   public lastLocation = ''
 
-  public this$el = React.createRef()
+  public this$el = React.createRef<any>()
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   public componentDidMount () {
     const name = '__arsfChatEmmittermess'
     observe(name, {
@@ -53,7 +48,6 @@ class MessageList extends Component<any, any> {
     this.scrollBottom()
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   public componentWillUnmount () {
     this.props.clear()
   }
@@ -72,7 +66,7 @@ class MessageList extends Component<any, any> {
     }
   }
 
-  getMessages = (params = {}) => {
+  getMessages = (params: any = {}) => {
     if (params.data) {
       this.sendAction({ message: params.data })
       return
@@ -86,7 +80,7 @@ class MessageList extends Component<any, any> {
     let i = 0
     const mess = this.props.messages
     const messageCount = mess.messages && mess.messages.length
-    const messagesRender = []
+    const messagesRender: any[] = []
     while (i < messageCount) {
       const previous = mess.messages[i - 1]
       const current = mess.messages[i]
@@ -97,7 +91,6 @@ class MessageList extends Component<any, any> {
       let startsSequence = true
       let endsSequence = true
       let showTimestamp = true
-      let showMore = true
 
       if (previous) {
         const previousMoment = moment(previous.createdAt)
@@ -112,7 +105,6 @@ class MessageList extends Component<any, any> {
 
         if (previousDuration.as('hours') < 1) {
           showTimestamp = false
-          showMore = false
         }
       }
 
@@ -130,7 +122,6 @@ class MessageList extends Component<any, any> {
           startsSequence={startsSequence}
           endsSequence={endsSequence}
           showTimestamp={showTimestamp}
-          showMore={showMore}
           data={current}
         />,
       )

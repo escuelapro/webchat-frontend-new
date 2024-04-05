@@ -20,7 +20,6 @@ window.addEventListener('blur', function () {
 window.instantChatBot = {
   show: false,
   open: () => {
-    // @ts-ignore
     window.instantChatBot.show = !window.instantChatBot.show
     // @ts-ignore
     emitData('instantChatBotEvents', { open: window.instantChatBot.show })

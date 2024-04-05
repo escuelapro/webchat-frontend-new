@@ -1,11 +1,9 @@
-// @ts-nocheck
 import { put, takeLatest } from 'redux-saga/effects'
 import html2canvas from 'html2canvas'
 
 import Storage from '@/utils/storage'
 import notifySound from '@/assets/sound.mp3'
-
-import { logger } from '../network'
+import { logger } from '@/utils'
 
 let lastLocation = ''
 let connected = 0
@@ -14,9 +12,8 @@ let reconnect = true
 
 const sound = new Audio(notifySound)
 
-// Play the sound
 function playSound () {
-  sound.play()
+  sound.play().then(() => {})
 }
 
 const testDomain = 'escuela-chat-test.web.app'
@@ -29,10 +26,7 @@ if (window.location.host === 'localhost:3000' || isTestDomain) {
     window.__arsfChatUrl = 'api.cafechat.app'
   }
 }
-// // Example usage: Call the playSound() function when a button is clicked
-// const playButton = document.getElementById('playButton');
-// playButton.addEventListener('click', playSound);
-export function wsSend (text, img) {
+export function wsSend (text: string, img: string) {
   const message = {
     message: text,
     host: '',

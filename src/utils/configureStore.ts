@@ -4,18 +4,7 @@ import createSagaMiddleware from 'redux-saga'
 import createReducer from './reducers'
 
 export default function configureStore () {
-  let composeEnhancers = compose
   const reduxSagaMonitorOptions = {}
-
-  // If Redux Dev Tools and Saga Dev Tools Extensions are installed, enable them
-  /* istanbul ignore next */
-  // @ts-ignore
-  if (import.meta.env.NODE_ENV !== 'production' && typeof window === 'object') {
-    /* eslint-disable no-underscore-dangle */
-    if (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
-      composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-    }
-  }
 
   const sagaMiddleware = createSagaMiddleware(reduxSagaMonitorOptions)
 
@@ -28,7 +17,7 @@ export default function configureStore () {
     // @ts-ignore
     {},
     // @ts-ignore
-    composeEnhancers(...enhancers),
+    compose(...enhancers),
   )
 
   // @ts-ignore

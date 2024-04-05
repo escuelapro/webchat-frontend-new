@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { memo, useEffect } from 'react'
 import { compose } from 'redux'
 

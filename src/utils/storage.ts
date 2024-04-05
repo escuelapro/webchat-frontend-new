@@ -1,11 +1,3 @@
-function toInt (v) {
-  let inVal = parseInt(v, 10)
-  if (isNaN(inVal)) {
-    inVal = 0
-  }
-  return inVal
-}
-
 if (console.everything === undefined) {
   console.everything = []
 

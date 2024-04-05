@@ -70,12 +70,10 @@ const ScreenshotButton = ({ onClick }: Prop) => {
   )
 }
 interface Props {
-  rightItems: any;
   send: any;
 }
-// @ts-ignore
-class Compose extends Component<Props> {
-  private rel: React.RefObject<any>
+class Compose extends Component<Props, any> {
+  private readonly rel: React.RefObject<any>
 
   state = { img: false }
 
@@ -122,20 +120,20 @@ class Compose extends Component<Props> {
     }
   }
 
-  test = (e) => {
+  handleTest = (e) => {
     e.preventDefault()
     return false
   }
 
-  cancelImg = () => {
-    this.setState({ img: '' })
+  handleCancelImg = () => {
+    this.setState({ img: false })
   }
 
-  screenSend = (dataUrl) => {
+  handleScreenSend = (dataUrl) => {
     this.setState({ img: dataUrl })
   }
 
-  screenSendToServer = () => {
+  handleScreenSendToServer = () => {
     const imgData = this.state.img
     this.setState({ img: '' }, () => {
       this.props.send({ img: imgData })
@@ -145,23 +143,21 @@ class Compose extends Component<Props> {
   render () {
     return (
       <Div className='abs-w-c-btm-form'>
-        {!!this.state.img && (
-          <div className='send-screen-wrap'>
-            <div className='send-screen-title'>
-              <FormattedMessage id='screen' />
+        {this.state.img
+          ? (
+            <div className='send-screen-wrap'>
+              <div className='send-screen-title'>
+                <FormattedMessage id='screen' />
+              </div>
+              <div className='send-screen'>
+                <button type='button' onClick={this.handleScreenSendToServer}><FormattedMessage id='yes' /></button>
+                <button type='button' onClick={this.handleCancelImg}><FormattedMessage id='no' /></button>
+              </div>
             </div>
-            <div className='send-screen'>
-              {/* eslint-disable-next-line react/jsx-handler-names */}
-              <button type='button' onClick={this.screenSendToServer}><FormattedMessage id='yes' /></button>
-              {/* eslint-disable-next-line react/jsx-handler-names */}
-              <button type='button' onClick={this.cancelImg}><FormattedMessage id='no' /></button>
-            </div>
-          </div>
-        )}
-        {/* eslint-disable-next-line react/jsx-handler-names */}
-        <form onSubmit={this.test} className='compose'>
-          {/* eslint-disable-next-line react/jsx-handler-names */}
-          <ScreenshotButton onClick={this.screenSend} />
+            )
+          : null}
+        <form onSubmit={this.handleTest} className='compose'>
+          <ScreenshotButton onClick={this.handleScreenSend} />
           <TextArea rel={this.rel} send={this.send} />
           <div className='send'>
             <button
@@ -170,7 +166,6 @@ class Compose extends Component<Props> {
             >
               <span />
             </button>
-            {this.props.rightItems}
           </div>
         </form>
       </Div>
@@ -180,7 +175,7 @@ class Compose extends Component<Props> {
 
 const mapStateToProps = createStructuredSelector({})
 
-export function mapDispatchToProps (dispatch) {
+export function mapDispatchToProps (dispatch: any) {
   return {
     send: (textObj, userId) => dispatch({ ...textObj, type: 'messages_test', userId }),
   }
@@ -194,4 +189,4 @@ const withConnect = connect(
 export default compose(
   withConnect,
   memo,
-)(Compose)
+)(Compose) as any

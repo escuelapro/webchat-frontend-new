@@ -16,7 +16,7 @@ if (!rootElement) {
   throw new Error('Failed to find the root element')
 }
 
-function I18n (props): JSX.Element {
+function I18n (props) {
   return (
     <IntlProvider
       locale={defaultLocale}

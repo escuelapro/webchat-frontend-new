@@ -7,14 +7,14 @@ import styled from './styled'
 
 const Div = styled()
 
-interface Prop {
+interface Props {
   data: any;
   startsSequence: any;
   endsSequence: any;
   showTimestamp: any;
 }
 
-const Message = ({ data, startsSequence, endsSequence, showTimestamp }: Prop) => {
+const Message = ({ data, startsSequence, endsSequence, showTimestamp }: Props) => {
   const intl = useIntl()
 
   let text = data.message
